@@ -5,8 +5,8 @@ import {
   CreateArticleUseCase,
   GetArticlesUseCase,
 } from '@ns/modules/articles/applications/usecases';
-import { Article } from '@ns/modules/articles/domain/entities';
 import { ARTICLE_REPOSITORY_TOKEN } from '@ns/modules/articles/domain/repository-adapters';
+import { Article } from '@ns/modules/articles/infrastructure/entities';
 import { ArticleRepositoryImpl } from '@ns/modules/articles/infrastructure/repositories';
 import { ScraperService } from '@ns/modules/articles/infrastructure/scrapping';
 import { ArticlesController } from '@ns/modules/articles/presentation/controllers';

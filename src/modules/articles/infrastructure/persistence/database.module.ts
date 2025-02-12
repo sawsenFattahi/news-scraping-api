@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Article } from '@ns/modules/articles/domain/entities';
+import { Article } from '@ns/modules/articles/infrastructure/entities';
 
 @Module({
   imports: [
-    ConfigModule, // Import de ConfigModule
+    ConfigModule,
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule], // Assurez-vous que ConfigModule est importé
+      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',

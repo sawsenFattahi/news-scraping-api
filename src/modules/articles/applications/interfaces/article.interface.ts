@@ -1,4 +1,4 @@
-export default class CreateArticleDto {
+export default interface IArticle {
   title: string;
   link: string;
   source: string;

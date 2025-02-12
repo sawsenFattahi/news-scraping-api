@@ -1,9 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
-import { ArticlesController } from '@ns/modules/articles/presentation/controllers';
-import { CreateArticleUseCase, GetArticlesUseCase } from '@ns/modules/articles/applications/usecases';
+
+import {
+  CreateArticleUseCase,
+  GetArticlesUseCase,
+} from '@ns/modules/articles/applications/usecases';
 import { ScraperService } from '@ns/modules/articles/infrastructure/scrapping';
+import { ArticlesController } from '@ns/modules/articles/presentation/controllers';
+
+import type { INestApplication } from '@nestjs/common';
+import type { TestingModule } from '@nestjs/testing';
 
 describe('ArticlesController (e2e)', () => {
   let app: INestApplication;
@@ -62,7 +68,6 @@ describe('ArticlesController (e2e)', () => {
     expect(response.body).toEqual(mockArticles);
   });
 
-
   it('GET /articles should return a list of articles', async () => {
     const mockResponse = {
       articles: [
@@ -74,11 +79,9 @@ describe('ArticlesController (e2e)', () => {
 
     (getArticlesUC.execute as jest.Mock).mockResolvedValue(mockResponse);
 
-    const response = await request(app.getHttpServer())
-      .get('/articles?limit=5&page=1')
-      .expect(200);
+    const response = await request(app.getHttpServer()).get('/articles?limit=5&page=1').expect(200);
 
-    expect(getArticlesUC.execute).toHaveBeenCalledWith("5", "1");
+    expect(getArticlesUC.execute).toHaveBeenCalledWith('5', '1');
     expect(response.body).toEqual(mockResponse);
   });
 });

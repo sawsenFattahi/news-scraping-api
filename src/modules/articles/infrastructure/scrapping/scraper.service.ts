@@ -2,13 +2,11 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-import { Article } from '@ns/modules/articles/domain/entities';
+import { Article } from '@ns/modules/articles/infrastructure/entities';
 
 @Injectable()
 export default class ScraperService {
-  
   async scrape(url: string = process.env.DEFAULT_SCRAPE_URL): Promise<Article[]> {
-    console.log('aaaa', process.env.DEFAULT_SCRAPE_URL)
     try {
       const { data: html } = await axios.get(url);
       const $ = cheerio.load(html);

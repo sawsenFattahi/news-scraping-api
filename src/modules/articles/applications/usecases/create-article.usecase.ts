@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
-import { CreateArticleDto } from '@ns/modules/articles/applications/dtos';
-
+import { ICreateArticle } from '@ns/modules/articles/applications/interfaces';
 import {
   ARTICLE_REPOSITORY_TOKEN,
   ArticleRepository,
@@ -14,7 +13,7 @@ export default class CreateArticleUseCase {
     private readonly articleRepo: ArticleRepository,
   ) {}
 
-  async execute(createArticleDto: CreateArticleDto) {
-    return this.articleRepo.create(createArticleDto);
+  async execute(createArticle: ICreateArticle) {
+    return this.articleRepo.create(createArticle);
   }
 }

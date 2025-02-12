@@ -16,7 +16,6 @@ export default class ArticlesController {
 
   @Post('/scrape')
   async scrapeAndSave() {
-    console.log('Scraping and saving articles...');
     const articles = await this.scraperService.scrape();
 
     return Promise.all(articles.map((article) => this.createArticleUC.execute(article)));

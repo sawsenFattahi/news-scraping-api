@@ -1,26 +1,26 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, Index } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('articles')
-@Index(['title', 'source']) // Index composite pour des performances optimales
+@Index(['title', 'source'])
 export default class Article {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 255 })
-  @Index() // Index individuel sur le titre
+  @Index()
   title: string;
 
   @Column('text', { nullable: true })
   link: string;
 
   @Column({ length: 100, nullable: true })
-  @Index() // Index individuel sur la source
+  @Index()
   source: string;
 
   @Column('date', { nullable: true })
-  @Index() // Index sur la date
+  @Index()
   publishedAt: Date;
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 }
