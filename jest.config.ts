@@ -7,8 +7,8 @@ const config: Config = {
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
   },
-  moduleNameMapper: {
-    '^@um/(.*)$': '<rootDir>/src/$1',
+ "moduleNameMapper": {
+    "^@ns/(.*)$": "<rootDir>/src/$1"
   },
   coverageDirectory: './coverage',
   coverageReporters: ['html'],
