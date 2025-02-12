@@ -1,14 +1,14 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import * as redisStore from 'cache-manager-ioredis';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
-import * as redisStore from 'cache-manager-ioredis';
 
 import { AppController } from '@ns/app.controller';
 import { AppService } from '@ns/app.service';
 import { ArticlesModule } from '@ns/modules/articles/articles.module';
 import { DatabaseModule } from '@ns/modules/articles/infrastructure/persistence';
-import { CacheModule } from '@nestjs/cache-manager';
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development.local'}` });
 
@@ -24,7 +24,8 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development.local'}` });
     ConfigModule.forRoot({
       load: [() => dotenv.config({ path: `.env.${process.env.NODE_ENV || 'development'}` })],
       isGlobal: true,
-      validationSchema: Joi.object({ // Validate the environment variables
+      validationSchema: Joi.object({
+        // Validate the environment variables
         NODE_ENV: Joi.string()
           .valid('development.local', 'production', 'test')
           .default('development'),
