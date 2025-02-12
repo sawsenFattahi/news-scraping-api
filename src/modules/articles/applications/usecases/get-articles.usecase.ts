@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 
+import { IArticle } from '@ns/modules/articles/applications/interfaces';
 import {
   ARTICLE_REPOSITORY_TOKEN,
   ArticleRepository,
@@ -12,7 +13,7 @@ export default class GetArticlesUseCase {
     private readonly articleRepo: ArticleRepository,
   ) {}
 
-  async execute(limit: number, page: number) {
+  async execute(limit: number, page: number): Promise<IArticle[]> {
     const res = await this.articleRepo.findAll(limit, page);
 
     return res;

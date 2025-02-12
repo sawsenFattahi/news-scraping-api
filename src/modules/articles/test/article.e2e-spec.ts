@@ -60,12 +60,12 @@ describe('ArticlesController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post('/articles/scrape')
-      .query({ url: 'https://www.bbc.com/news' }) // ✅ Pass the URL as a query parameter
+      .query({ url: 'https://www.bbc.com/news' })
       .expect(201);
 
     expect(scraperService.scrape).toHaveBeenCalledTimes(1);
     expect(createArticleUC.execute).toHaveBeenCalledTimes(2);
-    expect(response.body).toEqual(mockArticles);
+    expect(response.body).toEqual({ status: 'Scraping started in the background' });
   });
 
   it('GET /articles should return a list of articles', async () => {
