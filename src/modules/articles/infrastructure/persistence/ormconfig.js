@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// this conf is used to generate the migrations
 module.exports = {
   type: 'mysql',
   host: process.env.DB_HOST || 'localhost',

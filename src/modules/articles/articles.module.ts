@@ -1,3 +1,4 @@
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -12,7 +13,10 @@ import { ScraperService } from '@ns/modules/articles/infrastructure/scrapping';
 import { ArticlesController } from '@ns/modules/articles/presentation/controllers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article])],
+  imports: [
+    TypeOrmModule.forFeature([Article]), // Import the Article entity
+    CacheModule.register(), // Register the cache module
+  ],
   controllers: [ArticlesController],
   providers: [
     CreateArticleUseCase,
