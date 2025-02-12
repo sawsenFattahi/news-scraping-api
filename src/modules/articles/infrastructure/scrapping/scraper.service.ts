@@ -9,12 +9,12 @@ export default class ScraperService {
   async scrape(url: string = process.env.DEFAULT_SCRAPE_URL): Promise<Article[]> {
     try {
       const { data: html } = await axios.get(url);
-      const $ = cheerio.load(html);
+      const $ = cheerio.load(html); // Load the HTML into cheerio
       const articles = [];
 
       $('a[data-testid="internal-link"]').each((_, element) => {
         const title = $(element).find('[data-testid="card-headline"]').text().trim();
-        const link = `https://www.bbc.com${$(element).attr('href')}`;
+        const link = `https://www.bbc.com${$(element).attr('href')}`; // Get the href attribute
         const source = $(element).find('[data-testid="card-metadata-tag"]').text().trim();
         const lastUpdateTime = $(element)
           .find('[data-testid="card-metadata-lastupdated"]')
@@ -25,7 +25,7 @@ export default class ScraperService {
 
         if (lastUpdateTime && title && link) {
           const timeMatch = lastUpdateTime.match(
-            /(\d+)\s*(mins?|hrs?|days?|weeks?|months?|years?)/i,
+            /(\d+)\s*(mins?|hrs?|days?|weeks?|months?|years?)/i, // Match time units
           );
 
           if (timeMatch) {
@@ -58,7 +58,7 @@ export default class ScraperService {
 
       return articles;
     } catch (error) {
-      return [];
+      return []; // Return an empty array if an error occurs
     }
   }
 }
