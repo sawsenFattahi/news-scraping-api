@@ -20,15 +20,12 @@ export default class ArticleRepositoryImpl implements ArticleRepository {
   @logAsync
   async create(createArticle: ICreateArticle): Promise<Article> {
     try {
-      this.logger.log('Start saving article');
       const article = await this.repo.create(createArticle);
 
       const savedArticle = await this.repo.save(article);
-      this.logger.log(`Article saved with ID: ${savedArticle.id}`);
 
       return savedArticle;
     } catch (error) {
-      this.logger.error(`Error saving articles: ${error.message}`);
       throw new BadRequestException(`Error checking data: ${error.message}`);
     }
   }

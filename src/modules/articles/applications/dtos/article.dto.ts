@@ -1,4 +1,4 @@
-export default interface IArticle {
+export default class ArticleDto {
   id: number;
   title: string;
   link: string;

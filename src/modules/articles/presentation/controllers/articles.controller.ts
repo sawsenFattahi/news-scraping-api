@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { logAsync } from 'perf-async-logger';
 
+import { ArticleDto } from '@ns/modules/articles/applications/dtos';
 import {
   CreateArticleUseCase,
   GetArticlesUseCase,
@@ -19,6 +21,7 @@ export default class ArticlesController {
   @Post('/scrape')
   @ApiOperation({ summary: 'Create a new article' })
   @ApiResponse({ status: 201, description: 'The article has been successfully created.' })
+  @logAsync
   async scrapeAndSave() {
     setImmediate(async () => {
       const articles = await this.scraperService.scrape();
@@ -32,8 +35,12 @@ export default class ArticlesController {
   @ApiOperation({ summary: 'Get all articles' })
   @ApiQuery({ name: 'limit', required: false, description: 'Limit number of articles' })
   @ApiQuery({ name: 'page', required: false, description: 'Page number for pagination' })
-  @ApiResponse({ status: 200, description: 'List of articles.', type: [Article] })
-  async getArticles(@Query('limit') limit = 10, @Query('page') page = 1) {
+  @ApiResponse({ status: 200, description: 'List of articles.', type: [ArticleDto] })
+  @logAsync
+  async getArticles(
+    @Query('limit') limit = 10,
+    @Query('page') page = 1,
+  ): Promise<Partial<ArticleDto[]>> {
     return this.getArticlesUC.execute(limit, page);
   }
 }
