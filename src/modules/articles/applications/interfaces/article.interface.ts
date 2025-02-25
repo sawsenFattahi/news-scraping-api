@@ -4,4 +4,5 @@ export default interface IArticle {
   link: string;
   source: string;
   publishedAt: Date;
+  createdAt: Date;
 }

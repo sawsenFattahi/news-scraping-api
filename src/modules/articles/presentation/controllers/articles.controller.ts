@@ -7,7 +7,6 @@ import {
   CreateArticleUseCase,
   GetArticlesUseCase,
 } from '@ns/modules/articles/applications/usecases';
-import { Article } from '@ns/modules/articles/infrastructure/entities';
 import { ScraperService } from '@ns/modules/articles/infrastructure/scrapping';
 
 @Controller('articles')
@@ -22,7 +21,8 @@ export default class ArticlesController {
   @ApiOperation({ summary: 'Create a new article' })
   @ApiResponse({ status: 201, description: 'The article has been successfully created.' })
   @logAsync
-  async scrapeAndSave() {
+
+  async scrapeAndSave(): Promise<{ status: string }> {
     setImmediate(async () => {
       const articles = await this.scraperService.scrape();
       await Promise.all(articles.map((article) => this.createArticleUC.execute(article)));
