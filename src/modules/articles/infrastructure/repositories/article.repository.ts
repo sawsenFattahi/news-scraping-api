@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cache } from 'cache-manager';
+import { logAsync } from 'perf-async-logger';
 import { Repository } from 'typeorm';
 
 import { ICreateArticle } from '@ns/modules/articles/applications/interfaces';
@@ -15,21 +16,21 @@ export default class ArticleRepositoryImpl implements ArticleRepository {
     @Inject('CACHE_MANAGER') private cacheManager: Cache,
   ) {}
   private readonly logger = new Logger(ArticleRepositoryImpl.name);
+
+  @logAsync
   async create(createArticle: ICreateArticle): Promise<Article> {
     try {
-      this.logger.log('Start saving article');
       const article = await this.repo.create(createArticle);
 
       const savedArticle = await this.repo.save(article);
-      this.logger.log(`Article saved with ID: ${savedArticle.id}`);
 
       return savedArticle;
     } catch (error) {
-      this.logger.error(`Error saving articles: ${error.message}`);
       throw new BadRequestException(`Error checking data: ${error.message}`);
     }
   }
 
+  @logAsync
   async findAll(limit: number, page: number): Promise<Article[]> {
     try {
       await this.cacheManager.set('test-key', 'Hello Redis', 300);
@@ -48,6 +49,7 @@ export default class ArticleRepositoryImpl implements ArticleRepository {
 
         return articles;
       }
+
       const articles = await this.repo.find({
         take: limit,
         skip: (page - 1) * limit,

@@ -1,5 +1,5 @@
 export default class ArticleDto {
-  id?: string;
+  id?: number;
   title: string;
   link: string;
   source: string;
